@@ -6,7 +6,20 @@ namespace WebApp.Authorization
 		{
 			var builder = WebApplication.CreateBuilder(args);
 			builder.Services.AddControllersWithViews();
+
+			builder.Services
+				.AddAuthentication("Cookie")
+				.AddCookie("Cookie", config =>
+				{
+					config.LoginPath = "/admin/login";
+				});
+			builder.Services.AddAuthorization();
+			
 			var app = builder.Build();
+			app.UseRouting();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			app.MapDefaultControllerRoute();
 
