@@ -1,3 +1,15 @@
 ﻿<h1>Home</h1>
 
-<a asp-controller="Admin" asp-action="Index">[Admin]</a>
+@if (User.Identity.IsAuthenticated)
+{
+	<a asp-controller="Admin" asp-action="Administrator">[Administrator]</a>
+	<a asp-controller="Admin" asp-action="Manager">[Manager]</a>
+	<a asp-controller="Admin" asp-action="LogOff">[Log off]</a>
+
+
+	<p>@ViewBag.Name : @ViewBag.IsAuthenticated</p>
+}
+else
+{
+	<a asp-controller="Admin" asp-action="Login">Log in</a>
+}

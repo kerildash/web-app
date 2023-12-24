@@ -6,6 +6,9 @@ namespace WebApp.Authorization.Controllers
 	{
 		public IActionResult Index()
 		{
+			ViewBag.Name = User.Identity.Name;
+			ViewBag.IsAuthenticated = User.Identity.IsAuthenticated;
+
 			return View();
 		}
 	}

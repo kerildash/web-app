@@ -18,7 +18,20 @@ namespace WebApp.Authorization.Controllers
 		{
 			return View();
 		}
-
+		public IActionResult AccessDenied(string ReturnUrl)
+		{
+			return View();
+		}
+		[Authorize(Policy = "Administrator")]
+		public IActionResult Administrator()
+		{
+			return View();
+		}
+		[Authorize(Policy = "Manager")]
+		public IActionResult Manager()
+		{
+			return View();
+		}
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<IActionResult> Login(LoginViewModel model)
@@ -29,7 +42,8 @@ namespace WebApp.Authorization.Controllers
 			}
 			var claims = new List<Claim>()
 			{
-				new Claim("demo", "value")
+				new Claim(ClaimTypes.Name, model.UserName),
+				new Claim(ClaimTypes.Role, "Administrator")
 			};
 			var identity = new ClaimsIdentity(claims, "Cookie");
 			var claimPrincipal = new ClaimsPrincipal(identity);

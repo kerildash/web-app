@@ -12,8 +12,24 @@ namespace WebApp.Authorization
 				.AddCookie("Cookie", config =>
 				{
 					config.LoginPath = "/admin/login";
+					config.AccessDeniedPath = "/Admin/AccessDenied";
 				});
-			builder.Services.AddAuthorization();
+			builder.Services.AddAuthorization(options =>
+			{
+				options.AddPolicy("Administrator", builder =>
+				{
+					builder.RequireRole("Administrator");
+				});
+
+				options.AddPolicy("Manager", builder =>
+				{
+					builder.RequireAssertion(context =>
+					
+						context.User.IsInRole("Manager") ||
+						context.User.IsInRole("Administrator")
+					);
+				});
+			});
 			
 			var app = builder.Build();
 			app.UseRouting();
